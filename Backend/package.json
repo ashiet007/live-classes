@@ -1,9 +1,10 @@
 {
-  "name": "ed-tech",
+  "name": "edtech",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Some description with a \"quote\"",
+  "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

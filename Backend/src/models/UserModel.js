@@ -2,8 +2,11 @@ const db = require('../config/database');
 const bcrypt = require('bcrypt');
 
 const createUser = async (user) => {
+  console.log(user);
   try {
-    const result = await db.query('INSERT INTO users SET ?', user);
+    const columns = Object.keys(user).join(', ');
+    const values = Object.values(user);
+    const result = await db.query(`INSERT INTO users (${columns}) VALUES (?)`, [values]);
     return result;
   } catch (error) {
     throw error;

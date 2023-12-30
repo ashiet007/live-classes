@@ -8,7 +8,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 app.use('/auth', authRoutes);
 
 const authenticateToken = (req, res, next) => {

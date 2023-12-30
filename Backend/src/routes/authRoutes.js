@@ -7,16 +7,11 @@ const { createUser, getUserByEmail, validateUser } = require('../models/UserMode
 
 router.post(
   '/register',
-  [
-    check('email').isEmail(),
-    check('password').isLength({ min: 6 }),
-    check('name').not().isEmpty(),
-  ],
   async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
 
     const { name, email, password } = req.body;
     try {
@@ -25,7 +20,7 @@ router.post(
         return res.status(400).json({ message: 'Email already registered' });
       }
 
-      await createUser({ name, email, password });
+      await createUser(req.body);
       res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
       next(error);
