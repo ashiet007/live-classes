@@ -31,7 +31,7 @@ const SignUp = () => {
         <SignUpOption
           image={avatar1}
           title="I am looking to Learn"
-          action={() => router.push("/signup/tutor")}
+          action={() => router.push("/signup/student")}
         />
       </div>
     </section>

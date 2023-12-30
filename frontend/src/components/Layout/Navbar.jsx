@@ -88,7 +88,7 @@ export function Navbar() {
           ))}
         </ul>
         <div className="hidden items-center gap-2 lg:flex">
-          <Link href={"/auth/signin"}>
+          <Link href={"/signin"}>
             <Button variant="text" placeholder={"SignIn"}>
               Sign In
             </Button>

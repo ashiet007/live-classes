@@ -1,4 +1,4 @@
-import TutorSignUpForm from "@/components/SignUp/TutorSignupForm";
+import SignInForm from "@/components/Signin";
 import { Typography } from "@material-tailwind/react";
 
 const Tutor = () => {
@@ -12,11 +12,11 @@ const Tutor = () => {
             className="mb-4"
             placeholder={"WhatIDo"}
           >
-            Signup as a Tutor
+            Login to your account
           </Typography>
         </div>
         <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-          <TutorSignUpForm />
+          <SignInForm />
         </div>
       </section>
     </>
