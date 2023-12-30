@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 const authRoutes = require('./src/routes/authRoutes');
-app.use('/auth', authRoutes);
+app.use('/', authRoutes);
 
 const authenticateToken = (req, res, next) => {
   const token = req.header('Authorization');

@@ -6,7 +6,7 @@ const createUser = async (user) => {
   try {
     const columns = Object.keys(user).join(', ');
     const values = Object.values(user);
-    const result = await db.query(`INSERT INTO users (${columns}) VALUES (?)`, [values]);
+    const result = await db.query('INSERT INTO users SET ?', user);
     return result;
   } catch (error) {
     throw error;
@@ -42,4 +42,14 @@ const validateUser = async (email, password) => {
   }
 };
 
-module.exports = { createUser, getUserByEmail, validateUser };
+const searchCourses = async(searchQuery) => {
+  try {
+    const [results] = await db.query('SELECT * FROM categories WHERE name LIKE ?', [`%${searchQuery}%`]);
+    return results;
+  } catch (error) {
+    console.error('Error searching for courses:', error);
+    throw error;
+  }
+}
+
+module.exports = { createUser, getUserByEmail, validateUser, searchCourses };

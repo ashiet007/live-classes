@@ -3,10 +3,11 @@ const { check, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const { createUser, getUserByEmail, validateUser } = require('../models/UserModel');
+const { createUser, getUserByEmail, validateUser, searchCourses } = require('../models/UserModel');
+
 
 router.post(
-  '/register',
+  '/auth/register',
   async (req, res, next) => {
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -29,7 +30,7 @@ router.post(
 );
 
 router.post(
-  '/login',
+  '/auth/login',
   [
     check('email').isEmail(),
     check('password').isLength({ min: 6 }),
@@ -57,5 +58,31 @@ router.post(
     }
   }
 );
+
+
+router.get('/search', async (req, res, next) => {
+  try {
+    // Get the search query parameter from the request
+    const searchQuery = req.query.name;
+
+    // Check if the search query is provided
+    if (!searchQuery) {
+      return res.status(400).json({ error: 'Search query parameter (name) is required.' });
+    }
+
+    const searchResult = await searchCourses(searchQuery);
+
+    if (searchResult.length > 0) {
+      res.status(200).json({ data: searchResult });
+    } else {
+      res.status(404).json({ message: "Courses not found!" });
+    }
+
+  } catch (error) {
+    console.error('Error executing search query:', error);
+    next(error);
+  }
+});
+
 
 module.exports = router;
