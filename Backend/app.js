@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const port = 8080;
+const port = 3000;
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -41,6 +41,6 @@ app.get("/protected-route", authenticateToken, (req, res) => {
 });
 
 // Start server
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
