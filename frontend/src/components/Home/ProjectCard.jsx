@@ -57,7 +57,8 @@ export function ProjectCard({ img, title, price }) {
           className="flex mb-1 font-normal !text-gray-500 items-center"
           placeholder={"Description"}
         >
-          &#8377; &nbsp; <div className="text-sm font-light">{price}</div>
+          &#8377; &nbsp;{" "}
+          <div className="text-sm font-light">{price || "2000"}</div>
         </Typography>
         <Typography
           className="flex mb-6 divide-x divide-green-600 row font-normal !text-gray-500 items-center"
