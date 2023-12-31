@@ -14,11 +14,13 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useSession, signOut } from "next-auth/react";
 
 const NAV_MENU = [
   {
-    name: "Courses",
+    name: "Classes",
     icon: RectangleStackIcon,
+    href: "/classes",
   },
   {
     name: "Tutors",
@@ -34,22 +36,22 @@ const NAV_MENU = [
 function NavItem({ children, href }) {
   return (
     <li>
-      <Typography
-        as="a"
-        href={href || "#"}
-        target={href ? "_blank" : "_self"}
-        variant="paragraph"
-        color="gray"
-        className="flex items-center gap-2 font-medium text-gray-900"
-        placeholder={"Navbar"}
-      >
-        {children}
-      </Typography>
+      <Link href={href ? href : "#"}>
+        <Typography
+          variant="paragraph"
+          color="gray"
+          className="flex items-center gap-2 font-medium text-gray-900"
+          placeholder={"Navbar"}
+        >
+          {children}
+        </Typography>
+      </Link>
     </li>
   );
 }
 
 export function Navbar() {
+  const { data: session } = useSession();
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen((cur) => !cur);
@@ -87,19 +89,38 @@ export function Navbar() {
             </NavItem>
           ))}
         </ul>
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link href={"/signin"}>
+        {session ? (
+          <div className="hidden items-center gap-2 lg:flex">
             <Button variant="text" placeholder={"SignIn"}>
-              Sign In
+              Welcome! User
             </Button>
-          </Link>
 
-          <Link href={"/signup"}>
-            <Button color="gray" placeholder={"blocks"}>
-              SignUp
+            <Button
+              color="gray"
+              placeholder={"blocks"}
+              onClick={(e) => {
+                signOut();
+              }}
+            >
+              Sign out
             </Button>
-          </Link>
-        </div>
+          </div>
+        ) : (
+          <div className="hidden items-center gap-2 lg:flex">
+            <Link href={"/login"}>
+              <Button variant="text" placeholder={"SignIn"}>
+                Sign In
+              </Button>
+            </Link>
+
+            <Link href={"/signup"}>
+              <Button color="gray" placeholder={"blocks"}>
+                SignUp
+              </Button>
+            </Link>
+          </div>
+        )}
+
         <IconButton
           variant="text"
           color="gray"
@@ -124,19 +145,35 @@ export function Navbar() {
               </NavItem>
             ))}
           </ul>
-          <div className="mt-6 mb-4 flex items-center gap-2">
-            <Link href={"/auth/signin"}>
-              <Button variant="text" placeholder={"SignIn"}>
-                Sign In
-              </Button>
-            </Link>
+          {session ? (
+            <div className="mt-6 mb-4 flex items-center gap-2">
+              <Link href={"/login"}>
+                <Button variant="text" placeholder={"SignIn"}>
+                  Welcome! user
+                </Button>
+              </Link>
 
-            <Link href={"/auth/signup"}>
-              <Button color="gray" placeholder={"blocks"}>
-                SignUp
-              </Button>
-            </Link>
-          </div>
+              <Link href={"/signup"}>
+                <Button color="gray" placeholder={"blocks"}>
+                  SignUp
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-6 mb-4 flex items-center gap-2">
+              <Link href={"/login"}>
+                <Button variant="text" placeholder={"SignIn"}>
+                  Sign In
+                </Button>
+              </Link>
+
+              <Link href={"/signup"}>
+                <Button color="gray" placeholder={"blocks"}>
+                  SignUp
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </Collapse>
     </MTNavbar>

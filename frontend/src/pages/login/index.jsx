@@ -1,5 +1,6 @@
 import SignInForm from "@/components/Signin";
 import { Typography } from "@material-tailwind/react";
+import { signIn } from "next-auth/react";
 
 const Tutor = () => {
   return (
@@ -16,7 +17,7 @@ const Tutor = () => {
           </Typography>
         </div>
         <div className="grid min-h-[140px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-          <SignInForm />
+          <SignInForm signIn={signIn} />
         </div>
       </section>
     </>
