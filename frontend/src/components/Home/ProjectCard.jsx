@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import { CalendarDaysIcon } from "@heroicons/react/24/solid";
 
-export function ProjectCard({ img, title, desc }) {
+export function ProjectCard({ img, title, price }) {
   return (
     <Card color="transparent" shadow={false} placeholder={"Card"}>
       <CardHeader
@@ -52,6 +52,12 @@ export function ProjectCard({ img, title, desc }) {
         >
           <CalendarDaysIcon width={18} height={18} className="mr-1" />
           <div className="text-sm font-light">Tue, 26 Dec at 08:10pm IST</div>
+        </Typography>
+        <Typography
+          className="flex mb-1 font-normal !text-gray-500 items-center"
+          placeholder={"Description"}
+        >
+          &#8377; &nbsp; <div className="text-sm font-light">{price}</div>
         </Typography>
         <Typography
           className="flex mb-6 divide-x divide-green-600 row font-normal !text-gray-500 items-center"
