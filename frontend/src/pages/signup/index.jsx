@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import SignUpOption from "@/components/Signup/SignUpOption";
+import SignUpOption from "@/components/SignUp/SignUpOption";
 import { Typography } from "@material-tailwind/react";
 import React from "react";
 
