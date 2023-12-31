@@ -1,10 +1,11 @@
-const mysql = require('mysql2/promise');
+const mysql = require("mysql2/promise");
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'ed-tech',
+  host: "viaduct.proxy.rlwy.net",
+  user: "root",
+  password: "ebECg3B2bA6bahCFh2fhbe2BBbhE6ggc",
+  database: "railway",
+  port: 58915,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
