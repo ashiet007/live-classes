@@ -1,11 +1,12 @@
 const mysql = require("mysql2/promise");
+require("dotenv").config();
 
 const pool = mysql.createPool({
-  host: "viaduct.proxy.rlwy.net",
-  user: "root",
-  password: "ebECg3B2bA6bahCFh2fhbe2BBbhE6ggc",
-  database: "railway",
-  port: 58915,
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: process.env.PORT,
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
