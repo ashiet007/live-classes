@@ -41,6 +41,6 @@ app.get("/protected-route", authenticateToken, (req, res) => {
 });
 
 // Start server
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
