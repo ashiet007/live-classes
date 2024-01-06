@@ -8,6 +8,8 @@ const {
   getUserByEmail,
   validateUser,
   searchCourses,
+  getClasses,
+  getClassessTutor,
 } = require("../models/UserModel");
 
 router.post("/auth/register", async (req, res, next) => {
@@ -71,7 +73,37 @@ router.get("/search", async (req, res, next) => {
     if (searchResult.length > 0) {
       res.status(200).json({ data: searchResult });
     } else {
-      res.status(404).json({ message: "Courses not found!" });
+      res.status(404).json({ message: "Classes not found!" });
+    }
+  } catch (error) {
+    console.error("Error executing search query:", error);
+    next(error);
+  }
+});
+
+router.get("/classes", async (req, res, next) => {
+  try {
+    // Get the search query parameter from the request
+    const result = await getClasses();
+    if (result.length > 0) {
+      res.status(200).json({ data: result });
+    } else {
+      res.status(404).json({ message: "Classes not found!" });
+    }
+  } catch (error) {
+    console.error("Error executing search query:", error);
+    next(error);
+  }
+});
+
+router.get("/class/{id}", async (req, res, next) => {
+  try {
+    // Get the search query parameter from the request
+    const result = await getClassessTutor(id);
+    if (result.length > 0) {
+      res.status(200).json({ data: result });
+    } else {
+      res.status(404).json({ message: "Classes not found!" });
     }
   } catch (error) {
     console.error("Error executing search query:", error);

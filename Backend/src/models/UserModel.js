@@ -55,12 +55,12 @@ const searchCourses = async (searchQuery) => {
   try {
     if (searchQuery) {
       const [results] = await db.query(
-        "SELECT * FROM categories WHERE name LIKE ?",
+        "SELECT * FROM classes WHERE name LIKE ?",
         [`%${searchQuery}%`]
       );
       return results;
     } else {
-      const [results] = await db.query("SELECT * FROM categories");
+      const [results] = await db.query("SELECT * FROM classes");
       return results;
     }
   } catch (error) {
@@ -69,4 +69,65 @@ const searchCourses = async (searchQuery) => {
   }
 };
 
-module.exports = { createUser, getUserByEmail, validateUser, searchCourses };
+const getClasses = async () => {
+  try {
+    const [results] = await db.query("SELECT * FROM classes");
+    return results;
+  } catch (error) {
+    console.error("Error searching for courses:", error);
+    throw error;
+  }
+};
+
+const getClassessTutor = async (classId) => {
+  try {
+    // Fetch class details
+    const [classes] = await db.query("SELECT * FROM classes WHERE id = ?", [
+      classId,
+    ]);
+
+    // Search inside classes_tutors
+    let tutors = [];
+
+    if (classes.length > 0) {
+      // Fetch tutors for the given class
+      const [classes_tutors] = await db.query(
+        "SELECT * FROM classes_tutors WHERE class_id = ? GROUP BY class_id",
+        [classId]
+      );
+
+      // Use a for...of loop instead of map for asynchronous operations
+      for (const result of classes_tutors) {
+        try {
+          // Fetch user details for each tutor
+          const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [
+            result.tutor_id,
+          ]);
+          tutors.push(rows[0]);
+        } catch (err) {
+          console.error("Error searching for tutors:", err);
+          throw err;
+        }
+      }
+    }
+
+    // Prepare the final result
+    const finalResult = {
+      class: classes[0], // Assuming there's only one class, adjust as needed
+      tutors: tutors,
+    };
+
+    return finalResult;
+  } catch (error) {
+    console.error("Error searching for courses:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  createUser,
+  getUserByEmail,
+  validateUser,
+  searchCourses,
+  getClasses,
+};
