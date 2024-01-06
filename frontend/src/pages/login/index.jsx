@@ -1,10 +1,16 @@
+import Meta from "@/components/Meta";
 import SignInForm from "@/components/Signin";
 import { Typography } from "@material-tailwind/react";
 import { signIn } from "next-auth/react";
 
+const metaData = {
+  title: "Live Classes: Login",
+  description: "Login to Live Classes",
+};
 const Tutor = () => {
   return (
     <>
+      <Meta title={metaData.title} description={metaData.description} />
       <section className="py-28 px-8">
         <div className="container mx-auto mb-10 text-center">
           <Typography

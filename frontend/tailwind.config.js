@@ -6,7 +6,7 @@ const config = withMT({
     "./src/components/**/*.{js,jsx,mdx}",
   ],
   theme: {},
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 });
 
 export default config;
