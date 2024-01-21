@@ -9,7 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
 
-const ClassCard = ({ img, title }) => {
+const ClassCard = ({ classData }) => {
   const router = useRouter();
   return (
     <Card color="transparent" shadow={false} placeholder={"Card"}>
@@ -19,8 +19,8 @@ const ClassCard = ({ img, title }) => {
         placeholder={"CardHeader"}
       >
         <Image
-          src={img}
-          alt={title}
+          src={classData.image}
+          alt={classData.name}
           width={768}
           height={768}
           className="h-full w-full object-cover"
@@ -32,21 +32,25 @@ const ClassCard = ({ img, title }) => {
           className="text-blue-gray-900 transition-colors hover:text-gray-800"
         >
           <Typography variant="h5" className="mb-2" placeholder={"Title"}>
-            {title}
+            {classData.name}
           </Typography>
         </a>
         <Typography
           className="mb-1 font-normal !text-gray-500 items-center"
           placeholder={"Description"}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam a augue
-          nisi. Mauris hendrerit interdum mauris, ac semper eros fringilla sed.
+          {classData.description.slice(0, 200)}...
         </Typography>
         <Button
           color="gray"
           size="sm"
           placeholder={"Button"}
-          onClick={() => router.push("/tutors")}
+          onClick={() =>
+            router.push({
+              pathname: "/tutors",
+              query: { classId: classData.id },
+            })
+          }
         >
           Explore Now
         </Button>

@@ -65,7 +65,7 @@ const StudentSignUp = () => {
         email: data.email,
         phone: data.mobileNumber,
         gender: data.gender,
-        category: data.category,
+        // category: data.category,
         pincode: data.location,
         password: data.password,
       });
@@ -169,7 +169,7 @@ const StudentSignUp = () => {
             />
           </div>
           {errors.gender && <Error />}
-          <div className="flex w-full px-2 py-2 flex-col gap-6">
+          {/* <div className="flex w-full px-2 py-2 flex-col gap-6">
             <Input
               variant="outlined"
               label="Enter the main category you want to Learn"
@@ -178,7 +178,7 @@ const StudentSignUp = () => {
               error={errors.category ? true : false}
             />
           </div>
-          {errors.category && <Error />}
+          {errors.category && <Error />} */}
           <div className="flex w-full px-2 py-2 flex-col gap-6">
             <Input
               variant="outlined"

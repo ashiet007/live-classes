@@ -68,7 +68,6 @@ router.get("/search", async (req, res, next) => {
   try {
     // Get the search query parameter from the request
     const searchQuery = req?.query?.name;
-
     const searchResult = await searchCourses(searchQuery);
     if (searchResult.length > 0) {
       res.status(200).json({ data: searchResult });
@@ -96,11 +95,14 @@ router.get("/classes", async (req, res, next) => {
   }
 });
 
-router.get("/class/{id}", async (req, res, next) => {
+router.get("/classes/:id", async (req, res, next) => {
   try {
+    // Get the class ID from the request parameters
+    const id = req.params.id;
+
     // Get the search query parameter from the request
     const result = await getClassessTutor(id);
-    if (result.length > 0) {
+    if (result) {
       res.status(200).json({ data: result });
     } else {
       res.status(404).json({ message: "Classes not found!" });

@@ -4,6 +4,7 @@ import { Input, Typography } from "@material-tailwind/react";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import Filters from "@/components/Tutors/Filters";
+import { useRouter } from "next/router";
 const TutorCard = dynamic(() => import("@/components/Tutors/TutorCard"), {
   ssr: false,
 });
@@ -13,7 +14,9 @@ const metaData = {
   description: "Explore classes in Live Classes",
 };
 
-function Tutors({ tutors }) {
+function Tutors({ classDetails }) {
+  console.log(classDetails);
+  const tutors = classDetails?.tutors || [];
   const [allTutors, setAllTutors] = useState(tutors);
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState(null);
@@ -29,6 +32,25 @@ function Tutors({ tutors }) {
     setAllTutors(filteredTutors);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
+
+  useEffect(() => {
+    if (expFilter) {
+      const filteredTutors = tutors.filter((tutorData) => {
+        const expRange = expFilter.value.split("-");
+        if (
+          parseInt(tutorData.experience) >= parseInt(expRange[0]) &&
+          parseInt(tutorData.experience) < parseInt(expRange[1])
+        ) {
+          return tutorData;
+        }
+      });
+      setAllTutors(filteredTutors);
+    } else {
+      setAllTutors([...tutors]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expFilter]);
 
   useEffect(() => {
     if (filters) {
@@ -60,7 +82,8 @@ function Tutors({ tutors }) {
             className="mb-4"
             placeholder={"MyProjects"}
           >
-            Explore our tutors
+            Explore our tutors <br />
+            for {classDetails.class.name}
           </Typography>
           <Typography
             variant="lead"
@@ -107,10 +130,11 @@ function Tutors({ tutors }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps(context) {
+  const id = context.query.classId;
   try {
     const response = await axios.get(
-      `${process.env.API_URL}/search`,
+      `${process.env.API_URL}/classes/${id}`,
       {},
       {
         headers: {
@@ -119,11 +143,12 @@ export async function getServerSideProps({ req }) {
         },
       }
     );
-    return { props: { tutors: response.data?.data || [] } };
+    console.log(response);
+    return { props: { classDetails: response.data?.data || null } };
   } catch (error) {
     console.log(error);
     return {
-      props: { tutors: [] },
+      props: { classDetails: null },
     };
   }
 }

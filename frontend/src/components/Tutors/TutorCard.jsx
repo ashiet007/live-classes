@@ -26,7 +26,7 @@ export function TutorCard({ tutorData }) {
         placeholder={"CardHeader"}
       >
         <Image
-          src="/image/avatar1.jpg"
+          src={tutorData.image}
           alt={tutorData.title}
           width={768}
           height={768}
@@ -39,7 +39,7 @@ export function TutorCard({ tutorData }) {
           className="text-blue-gray-900 transition-colors hover:text-gray-800"
         >
           <Typography variant="h5" className="mb-2" placeholder={"Title"}>
-            {"Ramesh Kumar"}
+            {tutorData.name}
           </Typography>
         </a>
         <Typography
@@ -59,23 +59,26 @@ export function TutorCard({ tutorData }) {
           placeholder={"Description"}
         >
           <MapPinIcon width={18} height={18} className="mr-1" />
-          <div className="text-sm font-light">
-            Sector 53 DLF Phase 5, Gurgaon
-          </div>
+          <div className="text-sm font-light">{tutorData.pincode}</div>
         </Typography>
-        <Typography
-          className="flex mb-1 font-normal !text-gray-500 items-center"
-          placeholder={"Description"}
-        >
-          <CheckBadgeIcon width={18} height={18} className="mr-1" />
-          <div className="text-sm font-light">Verified</div>
-        </Typography>
+        {tutorData.status ? (
+          <Typography
+            className="flex mb-1 font-normal !text-gray-500 items-center"
+            placeholder={"Description"}
+          >
+            <CheckBadgeIcon width={18} height={18} className="mr-1" />
+            <div className="text-sm font-light">Varified</div>
+          </Typography>
+        ) : null}
+
         <Typography
           className="flex mb-1 font-normal !text-gray-500 items-center"
           placeholder={"Description"}
         >
           <BriefcaseIcon width={18} height={18} className="mr-1" />
-          <div className="text-sm font-light">3 years of Exp.</div>
+          <div className="text-sm font-light">
+            {tutorData.experience} years of Exp.
+          </div>
         </Typography>
         <Typography
           className="flex mb-1 font-normal !text-gray-500 items-center"
@@ -91,16 +94,14 @@ export function TutorCard({ tutorData }) {
           placeholder={"Description"}
         >
           <PhoneIcon width={18} height={18} className="mr-1" />
-          <div className="text-sm font-light">9867789867</div>
+          <div className="text-sm font-light">{tutorData.phone}</div>
         </Typography>
         <Typography
           className="flex mb-1 font-normal !text-gray-500 items-center"
           placeholder={"Description"}
         >
           {" "}
-          I am a Post Graduate Psychology Teacher, teaching class XI and XII for
-          last more than 12 years now. I have Masters degree in Psychology and
-          have...
+          {tutorData.intro.slice(0, 150)}...
         </Typography>
         <Button
           color="gray"

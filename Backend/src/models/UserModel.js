@@ -87,12 +87,12 @@ const getClassessTutor = async (classId) => {
     ]);
 
     // Search inside classes_tutors
-    let tutors = [];
+    const tutors = [];
 
     if (classes.length > 0) {
       // Fetch tutors for the given class
       const [classes_tutors] = await db.query(
-        "SELECT * FROM classes_tutors WHERE class_id = ? GROUP BY class_id",
+        "SELECT * FROM classes_tutors WHERE class_id = ?",
         [classId]
       );
 
@@ -100,23 +100,32 @@ const getClassessTutor = async (classId) => {
       for (const result of classes_tutors) {
         try {
           // Fetch user details for each tutor
-          const [rows] = await db.query("SELECT * FROM users WHERE id = ?", [
-            result.tutor_id,
-          ]);
-          tutors.push(rows[0]);
+          const [rows] = await db.query(
+            "SELECT * FROM users LEFT JOIN tutor on users.id = tutor.user_id WHERE users.id = ?",
+            [result.tutor_id]
+          );
+
+          if (rows.length > 0) {
+            tutors.push({ ...rows[0], price: result.price });
+          } else {
+            console.warn(`Tutor with ID ${result.tutor_id} not found.`);
+            // Handle the case when a tutor is not found, maybe log a warning and continue
+          }
         } catch (err) {
-          console.error("Error searching for tutors:", err);
-          throw err;
+          console.error(
+            `Error searching for tutor with ID ${result.tutor_id}:`,
+            err
+          );
+          // Handle the error for this specific tutor fetch
+          // You might choose to continue with the next tutor or handle it differently based on your use case
         }
       }
     }
-
     // Prepare the final result
     const finalResult = {
       class: classes[0], // Assuming there's only one class, adjust as needed
       tutors: tutors,
     };
-
     return finalResult;
   } catch (error) {
     console.error("Error searching for courses:", error);
@@ -130,4 +139,5 @@ module.exports = {
   validateUser,
   searchCourses,
   getClasses,
+  getClassessTutor,
 };

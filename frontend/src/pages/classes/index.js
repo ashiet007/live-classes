@@ -61,11 +61,7 @@ function Classes({ classes }) {
         <div className="container mx-auto grid grid-cols-1 gap-x-10 gap-y-20 md:grid-cols-2 xl:grid-cols-4">
           {allClasses.length > 0 ? (
             allClasses.map((classData) => (
-              <ClassCard
-                key={classData.id}
-                img={classData.image}
-                title={classData.name}
-              />
+              <ClassCard key={classData.id} classData={classData} />
             ))
           ) : (
             <div className="text-center">
@@ -78,10 +74,10 @@ function Classes({ classes }) {
   );
 }
 
-export async function getServerSideProps({ req }) {
+export async function getServerSideProps() {
   try {
     const response = await axios.get(
-      `${process.env.API_URL}/search`,
+      `${process.env.API_URL}/classes`,
       {},
       {
         headers: {
